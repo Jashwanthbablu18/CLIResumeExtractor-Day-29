@@ -1,0 +1,80 @@
+FileReader.py
+1. Imports:
+   - PyPDF2: A library for reading PDF files. But we didn't used it 
+   - docx: A library used for reading Microsoft Word DOCX files.
+   - pdfplumber: A library used for extracting text from PDF files.
+2. Functions:
+   - read_pdf(file_path): 
+     - This function reads text from a PDF file using the pdfplumber library.
+     - It opens the PDF file specified by file_path.
+     - It initializes an empty string 'text' to store the extracted text.
+     - It iterates over each page of the PDF, extracting text from each page and appending it to the text string.
+     - Finally, it returns the accumulated text.
+   - read_docx(file_path):
+     - This function reads text from a DOCX file using the docx library.
+     - It opens the DOCX file specified by file_path.
+     - It initializes an empty string text.
+     - It iterates over each paragraph in the document, appending the paragraph text followed by a newline character to the text string.
+     - Finally, it returns the accumulated text.
+   - read_txt(file_path):
+     - This function reads text from a plain text (TXT) file.
+     - It opens the TXT file specified by file_path in read mode with UTF-8 encoding.
+     - It reads the entire content of the file into the text variable.
+     - Finally, it returns the read text.
+
+ResumeScanner.py
+1. Imports:
+   - import re: This imports the regular expression module, which is used for string searching and manipulation.
+   - from file_reader import read_pdf, read_docx, read_txt: This imports functions from a module named file_reader, which are presumed 
+     to handle reading text from PDF, DOCX, and TXT files.
+2. extract_skills(resume_text):
+   - This function takes a string resume_text as an input, which is expected to be the text extracted from a resume file.
+   - It defines a list of skills (skills) that the function will look for in the resume text. The list includes programming languages 
+     and technologies such as Python, JavaScript, Java, C++, SQL, HTML, CSS, React, Node, and Django.
+   - It uses list comprehension along with regular expressions (re.search) to find occurrences of each skill in the resume text. The 
+     re.search function checks for whole word matches (\b denotes word boundaries) and is case-insensitive (re.IGNORECASE).
+   - The function returns a list of skills that are found in the resume text.
+3. skill_count(resume_text):
+   - This function also takes resume_text as input.
+   - It uses dictionary comprehension to count how many times each skill appears in the resume text.
+   - The function converts both the skill and resume text to lowercase to ensure case-insensitive counting.
+   - The resulting dictionary maps each skill to its count in the text, but only includes skills that are found at least once.
+4. extract_resume_text(file_path):
+   - This function determines how to read the resume text based on the file extension of file_path.
+   - If the file ends with .pdf, it calls read_pdf(file_path).
+   - If the file ends with .docx, it calls read_docx(file_path).
+   - If the file ends with .txt, it calls read_txt(file_path).
+   - If the file does not match these extensions, it raises a ValueError, indicating unsupported file types.
+
+Day-29Code.py
+Imports
+- The script imports three functions from ResumeScanner:
+  - extract_skills: It extracts skills from a given text.
+  - skill_count: It counts the occurrences of each skill in the text.
+  - extract_resume_text: It extracts text from a resume file (e.g., PDF, DOCX, or TXT).
+main
+- file_path: This is a variable set to 'C:/Users/student/Desktop/SampleResume.pdf', which indicates the path to the resume file. 
+- A try-except block is used to handle potential errors during execution.
+- resume_text = extract_resume_text(file_path): Calls the extract_resume_text function with the file path to extract text from the 
+  resume.
+- If no text is found (if not resume_text:), it displays "No text found in the resume." and exits the function there itself.
+- found_skills = extract_skills(resume_text): Calls the extract_skills function to extract skills from the extracted resume text.
+- displays "Extracted Skills:" followed by the list of skills found in the resume.
+- skill_count_data = skill_count(resume_text): Calls the skill_count function to count how many times each skill appears in the resume 
+  text.
+- displays "Skill Count:" followed by a dictionary or similar data structure that contains skills as keys and their counts as values.
+- If any exception occurs during execution, it is caught and printed as "Error: {e}", where {e} is the error message.
+- The if __name__ == "__main__": block ensures that the main() function is called only when the script is executed directly, not when 
+  it is imported as a module.
+
+What I've learnt:
+- Comprehensions: Comprehensions are a concise way to create sequences (like lists, sets, or dictionaries) by embedding a loop and 
+  optional condition inside a single line of code. They're often used as a more readable and compact alternative to traditional loops.
+  We've 3 types of comprehensions: List, Set and Dictionary comprehensions.
+  used for:- Shorter and cleaner code, More readable for simple logic and Efficient.
+  It features are:- Conciseness, readability, performance, supports conditions, supports nesting.
+- Regx: Regular expressions (regex or regexp) are a powerful tool for pattern matching and text manipulation. Python provides the re 
+  module to work with regular expressions.
+  So, A regular expression is a special sequence of characters that forms a search pattern, used to match, search, or manipulate strings.
+  used for:- Input validation, searching in text, text extraction, Substitution or text replacement, Data cleaning ...
+  It features:- Pattern matching, Flexibility and powerful, string validation, search and replace, extracting data...
